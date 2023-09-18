@@ -151,6 +151,7 @@ void loop() {
       __asm volatile ("wfi");
       matrix_to_normal();
       keys_to_normal();
+      trackball_init(&dev_term);
       inactive_last_time = millis();
     }
   }
