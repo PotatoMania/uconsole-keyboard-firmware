@@ -54,6 +54,24 @@ void init_cols() {
     }
 }
 
+static void do_nothing() {}
+
+void matrix_to_interrupt() {
+  // set rows to interrupt input, active on change
+  int i;
+  for(i=0;i<8;i++) {
+    attachInterrupt(digitalPinToInterrupt(matrix_rows[i]), do_nothing, ExtIntTriggerMode::CHANGE);
+  }
+}
+
+void matrix_to_normal() {
+  // init_cols(); // columns are LOW outputs, no need to modify
+  int i;
+  for(i=0;i<8;i++) {
+    detachInterrupt(digitalPinToInterrupt(matrix_rows[i]));
+  }
+  init_rows();
+}
 
 
 void matrix_init() {
@@ -162,18 +180,20 @@ void matrix_release(DEVTERM*dv,uint8_t row,uint8_t col) {
   
 }
 
-void keyboard_task(DEVTERM*dv)
+bool keyboard_task(DEVTERM*dv)
 {
  char buff[128];
   uint8_t matrix_row = 0;
   uint8_t matrix_change = 0;
   uint8_t pressed = 0;
+  bool active = false;
   
   matrix_scan();
   
   for (uint8_t r = 0; r < MATRIX_ROWS; r++) {
     matrix_row = matrix_get_row(r);
     matrix_change = matrix_row ^ matrix_prev[r];
+    active |= matrix_prev[r] > 0;
     if (matrix_change) { 
       //sprintf(buff,"matrix_row: %d %d\n",matrix_row,matrix_prev[r]);
       //dv->_Serial->print(buff);
@@ -192,6 +212,7 @@ void keyboard_task(DEVTERM*dv)
       }
     }
   }
+  return active;
 }
 
 void keyboard_init(DEVTERM*){

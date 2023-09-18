@@ -21,6 +21,9 @@ const uint8_t reportDescription[] = {
 static const uint32_t LOOP_INTERVAL_MS = 0;
 static TickWaiter<LOOP_INTERVAL_MS> waiter;
 
+static const uint32_t INACTIVE_DELAY = 1000; //ms
+unsigned long inactive_last_time;
+
 HardwareTimer timer(1);
 //HardwareTimer ctrl_timer(4);
 
@@ -92,6 +95,8 @@ void setup() {
 
   
   delay(1000);
+
+  inactive_last_time = millis();
 }
 
 #define LOCK_TIME 50
@@ -130,10 +135,22 @@ void loop() {
   dev_term.delta = waiter.waitForNextTick();
   dev_term.state->tick(dev_term.delta);
   
-  trackball_task(&dev_term);
-  
-  keys_task(&dev_term); //keys above keyboard
-  keyboard_task(&dev_term);
+  // trackball, keys above keyboard, keyboard itself
+  if (trackball_task(&dev_term)
+      || keys_task(&dev_term)
+      || keyboard_task(&dev_term)) {
+    inactive_last_time = millis();
+  } else {
+    unsigned long current_time = millis();
+    if (current_time - inactive_last_time > INACTIVE_DELAY) {
+      matrix_to_interrupt();
+      keys_to_interrupt();
+      __asm volatile ("wfi");
+      matrix_to_normal();
+      keys_to_normal();
+      inactive_last_time = millis();
+    }
+  }
   
 
 }

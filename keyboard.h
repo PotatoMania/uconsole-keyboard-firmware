@@ -68,8 +68,10 @@ uint8_t matrix_get_row(uint8_t row) ;
 
 
 
-void keyboard_task(DEVTERM*);
+bool keyboard_task(DEVTERM*);
 void keyboard_init(DEVTERM*);
+void matrix_to_interrupt(void);
+void matrix_to_normal(void);
 
 
 #define KEY_PRESSED 1

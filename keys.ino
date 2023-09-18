@@ -18,6 +18,24 @@ void init_keys(){
   }
 }
 
+// do_nothing is in keyboard.ino
+// static void do_nothing(void) {}
+
+void keys_to_interrupt(){
+  int i;
+  for(i=0;i<KEYS_NUM;i++) {
+    attachInterrupt(digitalPinToInterrupt(keys_io[i]), do_nothing, ExtIntTriggerMode::CHANGE);
+  }
+}
+
+void keys_to_normal(){
+  int i;
+  for(i=0;i<KEYS_NUM;i++) {
+    detachInterrupt(digitalPinToInterrupt(keys_io[i]));
+  }
+  init_keys();
+}
+
 uint8_t scan_keys(){
   uint32_t data;
   uint8_t s;
@@ -65,7 +83,7 @@ void print_keys(DEVTERM*dv) {
   
 }
 
-void keys_task(DEVTERM*dv){
+bool keys_task(DEVTERM*dv){
   
   scan_keys();
 
@@ -92,6 +110,8 @@ void keys_task(DEVTERM*dv){
     }
   }
   
+  bool active = keys > 0;
+  return active;
 }
 void keys_init(DEVTERM*dv){
 

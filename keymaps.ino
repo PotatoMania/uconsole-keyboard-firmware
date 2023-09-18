@@ -29,7 +29,7 @@
 
 #define _LEFT_SHIFT_KEY KEY_LEFT_SHIFT
 #define _LEFT_CTRL_KEY  KEY_LEFT_CTRL
-#define _CMD_KEY        KEY_RIGHT_GUI
+#define _CMD_KEY        KEY_LEFT_GUI
 #define _LEFT_ALT       KEY_LEFT_ALT
 
 #define _FN_KEY_UP_ARROW     KEY_PAGE_UP
@@ -56,7 +56,7 @@
 const uint16_t keyboard_maps[][MATRIX_KEYS] = {
 
   [DEF_LAYER] = {
-    _SELECT_KEY, _START_KEY, _VOLUME_MUTE, '`', '[', ']', '-', '=', \
+    _SELECT_KEY, _START_KEY, _VOLUME_M, '`', '[', ']', '-', '=', \
     '1', '2', '3', '4', '5', '6', '7', '8', \
     '9', '0', KEY_ESC, KEY_TAB, EMP, EMP, EMP, EMP, \
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', \
@@ -67,7 +67,7 @@ const uint16_t keyboard_maps[][MATRIX_KEYS] = {
   },
 
   [FN_LAYER] = {
-    _PRINT_KEY, _PAUSE_KEY, _VOLUME_M, '`', '[', ']', KEY_F11, KEY_F12, \
+    _PRINT_KEY, _PAUSE_KEY, _VOLUME_MUTE, '`', '[', ']', KEY_F11, KEY_F12, \
     KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8, \
     KEY_F9, KEY_F10, _FN_LOCK_KEYBOARD, KEY_CAPS_LOCK, EMP, EMP, EMP, EMP, \
     'q', 'w', 'e', 'r', 't', 'y', KEY_PAGE_UP, KEY_INSERT, \

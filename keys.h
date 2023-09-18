@@ -19,9 +19,10 @@
 #define KEYS_NUM 17
 
 
-void keys_task(DEVTERM*);
+bool keys_task(DEVTERM*);
 void keys_init(DEVTERM*);
-
+void keys_to_interrupt(void);
+void keys_to_normal(void);
 
 
 #endif
