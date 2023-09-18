@@ -136,9 +136,12 @@ void loop() {
   dev_term.state->tick(dev_term.delta);
   
   // trackball, keys above keyboard, keyboard itself
-  if (trackball_task(&dev_term)
-      || keys_task(&dev_term)
-      || keyboard_task(&dev_term)) {
+  bool active = false;
+  active |= trackball_task(&dev_term);
+  active |= keys_task(&dev_term);
+  active |= keyboard_task(&dev_term);
+
+  if (active) {
     inactive_last_time = millis();
   } else {
     unsigned long current_time = millis();

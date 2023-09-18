@@ -56,7 +56,7 @@
 const uint16_t keyboard_maps[][MATRIX_KEYS] = {
 
   [DEF_LAYER] = {
-    _SELECT_KEY, _START_KEY, _VOLUME_M, '`', '[', ']', '-', '=', \
+    _SELECT_KEY, _START_KEY, _VOLUME_MUTE, '`', '[', ']', '-', '=', \
     '1', '2', '3', '4', '5', '6', '7', '8', \
     '9', '0', KEY_ESC, KEY_TAB, EMP, EMP, EMP, EMP, \
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', \
@@ -67,7 +67,7 @@ const uint16_t keyboard_maps[][MATRIX_KEYS] = {
   },
 
   [FN_LAYER] = {
-    _PRINT_KEY, _PAUSE_KEY, _VOLUME_MUTE, '`', '[', ']', KEY_F11, KEY_F12, \
+    _PRINT_KEY, _PAUSE_KEY, _VOLUME_M, '`', '[', ']', KEY_F11, KEY_F12, \
     KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8, \
     KEY_F9, KEY_F10, _FN_LOCK_KEYBOARD, KEY_CAPS_LOCK, EMP, EMP, EMP, EMP, \
     'q', 'w', 'e', 'r', 't', 'y', KEY_PAGE_UP, KEY_INSERT, \
@@ -97,7 +97,7 @@ const uint16_t keys_maps[][KEYS_NUM] = {
     _FN_KEY_UP_ARROW, _FN_KEY_DOWN_ARROW, _FN_KEY_LEFT_ARROW, _FN_KEY_RIGHT_ARROW, \
     _JOYSTICK_A, _JOYSTICK_B, _JOYSTICK_X, _JOYSTICK_Y, \
     _FN_SHIFT, _FN_SHIFT, _LEFT_CTRL_KEY, KEY_RIGHT_CTRL, \
-    _CMD_KEY,  _MOUSE_LEFT,  KEY_RIGHT_ALT, _MOUSE_RIGHT,  \
+    _CMD_KEY,  _MOUSE_LEFT,  KEY_RIGHT_ALT, _MOUSE_RIGHT, \
     _TRACKBALL_BTN
   },
 
@@ -260,7 +260,7 @@ void keyboard_action(DEVTERM*dv, uint8_t row, uint8_t col, uint8_t mode) {
           keyboard_release(dv, addr, k);
         }
       } break;
-    case _VOLUME_M: { //default vol-, shift to vol+
+    case _VOLUME_M: { //default vol-, fn+shift+key to vol+
         if (mode == KEY_PRESSED) {
           if (dv->Keyboard_state.sf_on > 0) {
             dv->Consumer->press(HIDConsumer::VOLUME_UP);
