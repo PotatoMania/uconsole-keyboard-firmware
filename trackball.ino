@@ -69,7 +69,9 @@ bool trackball_task(DEVTERM*dv) {
 
   int8_t x = 0, y = 0, w = 0;
   noInterrupts();
-  const auto mode = dv->state->moveTrackball();
+  // use fn key to change the mode instead of middle click
+  // const auto mode = dv->state->moveTrackball();  // original, middle click
+  const auto mode = dv->Keyboard_state.fn_on == 0 ? TrackballMode::Mouse : TrackballMode::Wheel;
   if (lastMode != mode) {
     rateMeter[AXIS_X].expire();
     rateMeter[AXIS_Y].expire();
